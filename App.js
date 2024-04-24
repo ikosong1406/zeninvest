@@ -16,7 +16,8 @@ import Invest2 from "./src/components/Invest2";
 import Success from "./src/components/Success";
 import TransactionDetails from "./src/components/TransactionDetails";
 import StockList from "./src/components/StockList";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import Account from "./src/components/Account";
+import Setting from "./src/components/Setting";
 
 const Stack = createStackNavigator();
 
@@ -98,6 +99,16 @@ const App = () => {
         <Stack.Screen
           name="StockList"
           component={StockList}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Account"
+          component={Account}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Setting"
+          component={Setting}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

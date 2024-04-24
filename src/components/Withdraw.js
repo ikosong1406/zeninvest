@@ -148,14 +148,6 @@ const Withdraw = () => {
       </Text>
 
       <View style={styles.content}>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter Amount...."
-          placeholderTextColor={"gray"}
-          value={amount}
-          onChangeText={handleAmountChange}
-          keyboardType="numeric"
-        />
         <SelectDropdown
           data={cryptoCoins.map((coin) => coin.label)}
           defaultButtonText="Select a coin"
@@ -169,17 +161,26 @@ const Withdraw = () => {
           buttonStyle={styles.dropdownButton}
           buttonTextStyle={styles.dropdownButtonText}
           dropdownStyle={styles.dropdownContainer}
-          dropdownTextStyle={styles.dropdownText} // Optional: for customizing dropdown text style
-          dropdownTextHighlightStyle={styles.dropdownTextHighlight} // Optional: for customizing highlighted text style
+          dropdownTextStyle={styles.dropdownText}
+          dropdownTextHighlightStyle={styles.dropdownTextHighlight}
         />
         {selectedCoin && (
           <View style={styles.infoContainer}>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter Amount in Dollars...."
+              placeholderTextColor={"gray"}
+              value={amount}
+              onChangeText={handleAmountChange}
+              keyboardType="numeric"
+            />
             <Text
               style={{
                 fontSize: width * 0.04,
                 textAlign: "left",
                 fontFamily: "anta",
                 marginBottom: height * 0.02,
+                marginTop: height * 0.02,
               }}
             >
               You will Recieve {convertedAmount} {selectedCoin.value}
@@ -266,23 +267,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     flex: 1,
   },
-  box: {
-    padding: width * 0.05,
-    backgroundColor: "white",
-    marginTop: height * 0.02,
-    borderRadius: 10,
-    shadowColor: "#000",
-    alignItems: "center",
-    display: "flex",
-    flexDirection: "row",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5, // This is for Android
-  },
   content: {
     width: "100%",
     padding: width * 0.05,
@@ -320,16 +304,6 @@ const styles = StyleSheet.create({
   infoContainer: {
     alignItems: "center",
     marginTop: height * 0.01,
-  },
-  label: {
-    fontSize: 18,
-    marginTop: width * 0.06,
-    fontFamily: "anta",
-  },
-  address: {
-    fontSize: 18,
-    marginTop: width * 0.02,
-    fontFamily: "anta",
   },
   input: {
     fontSize: 16,

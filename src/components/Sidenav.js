@@ -32,6 +32,16 @@ const Sidenav = ({ visible, onClose }) => {
     navigation.navigate("Portfolio");
   };
 
+  const Setting = () => {
+    onClose();
+    navigation.navigate("Setting");
+  };
+
+  const Account = () => {
+    onClose();
+    navigation.navigate("Account");
+  };
+
   const logout = () => {
     setActive("Profile");
     // onClose();
@@ -86,7 +96,7 @@ const Sidenav = ({ visible, onClose }) => {
                 />
                 <Text style={styles.activeText}>Portfolio</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.inactive}>
+              <TouchableOpacity style={styles.inactive} onPress={Setting}>
                 <Ionicons
                   name="settings"
                   size={width * 0.05}
@@ -95,7 +105,7 @@ const Sidenav = ({ visible, onClose }) => {
                 <Text style={styles.activeText}>Settings</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={logout}
+                onPress={Account}
                 style={{
                   borderRadius: 10,
                   paddingHorizontal: width * 0.04,

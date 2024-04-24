@@ -135,6 +135,7 @@ const Register = () => {
                   color: Colors.gold,
                   fontSize: 16,
                   marginLeft: width * 0.04,
+                  fontFamily: "anta",
                 }}
               >
                 Terms and condition
@@ -146,6 +147,7 @@ const Register = () => {
                 style={{
                   color: Colors.gold,
                   fontSize: 16,
+                  fontFamily: "anta",
                 }}
               >
                 Privacy policy
@@ -213,9 +215,10 @@ const styles = StyleSheet.create({
   },
   label: {
     color: "gray",
-    marginLeft: width * 0.04,
+    marginLeft: width * 0.03,
     fontSize: 16,
     paddingRight: width * 0.02,
+    fontFamily: "anta",
   },
   active: {
     backgroundColor: Colors.gold,

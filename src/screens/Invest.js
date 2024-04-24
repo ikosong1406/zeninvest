@@ -38,6 +38,7 @@ const Invest = () => {
   useEffect(() => {
     getData();
   }, []);
+
   const [fontsLoaded] = useFonts({
     anta: require("../fonts/Anta-Regular.ttf"),
   });
@@ -194,13 +195,11 @@ const Invest = () => {
 
       <View style={{ paddingHorizontal: width * 0.04 }}>
         <View style={styles.row}>
-          {/* Render first row */}
           {firstRowData.map((item, index) => (
             <TopStock key={index} data={item} />
           ))}
         </View>
         <View style={styles.row}>
-          {/* Render second row */}
           {secondRowData.map((item, index) => (
             <TopStock key={index} data={item} />
           ))}
@@ -292,10 +291,9 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5, // This is for Android
+    elevation: 5,
   },
   box2: {
-    // height: "20%",
     width: "45%",
     padding: width * 0.04,
     backgroundColor: "white",
@@ -310,7 +308,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5, // This is for Android
+    elevation: 5,
   },
   inputContainer: {
     flexDirection: "row",
@@ -333,8 +331,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     width: "100%",
-    paddingHorizontal: 10, // Add padding to space items evenly
-    marginTop: 10, // Add margin between rows
+    paddingHorizontal: 10,
+    marginTop: 10,
   },
 });
 

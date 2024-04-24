@@ -67,14 +67,6 @@ const Payment = () => {
 
   return (
     <View style={styles.content}>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter Amount...."
-        placeholderTextColor={"gray"}
-        value={amount}
-        onChangeText={handleAmountChange}
-        keyboardType="numeric"
-      />
       <SelectDropdown
         data={cryptoCoins.map((coin) => coin.label)}
         defaultButtonText="Select a coin"
@@ -91,12 +83,21 @@ const Payment = () => {
       />
       {selectedCoin && (
         <View style={styles.infoContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter Amount in Dollars...."
+            placeholderTextColor={"gray"}
+            value={amount}
+            onChangeText={handleAmountChange}
+            keyboardType="numeric"
+          />
           <Text
             style={{
               fontSize: width * 0.04,
               textAlign: "left",
               fontFamily: "anta",
               marginBottom: height * 0.02,
+              marginTop: height * 0.02,
             }}
           >
             Transfer {convertedAmount} {selectedCoin.value} to
@@ -187,6 +188,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: width * 0.02,
     color: "#333",
+    width: "100%",
   },
 });
 

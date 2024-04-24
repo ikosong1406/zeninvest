@@ -117,7 +117,7 @@ const Login = () => {
           flexDirection: "row",
           marginTop: height * 0.3,
           marginBottom: height * 0.01,
-          justifyContent: "center",
+          alignSelf: "center",
         }}
       >
         <Text
@@ -126,15 +126,17 @@ const Login = () => {
             marginLeft: width * 0.04,
             fontSize: 16,
             paddingRight: width * 0.02,
+            fontFamily: "anta",
           }}
         >
           Forgot Password ?
         </Text>
-        <TouchableOpacity onPress={at}>
+        <TouchableOpacity onPress={at} style={{ width: "10%" }}>
           <Text
             style={{
               color: Colors.gold,
               fontSize: 16,
+              fontFamily: "anta",
             }}
           >
             Reset
@@ -189,21 +191,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     flex: 1,
     color: Colors.white,
-  },
-  checkbox: {
-    width: width * 0.07,
-    height: height * 0.03,
-    borderRadius: 5,
-    borderWidth: 2,
-    borderColor: "gray",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  label: {
-    color: "gray",
-    marginLeft: width * 0.04,
-    fontSize: 16,
-    paddingRight: width * 0.02,
   },
   active: {
     backgroundColor: Colors.gold,

@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
   TextInput,
   Modal,
-  TouchableHighlight,
 } from "react-native";
 import Colors from "../components/Colors";
 import { useNavigation } from "@react-navigation/native";
@@ -290,7 +289,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5, // This is for Android
+    elevation: 5,
   },
   inputContainer: {
     flexDirection: "row",
@@ -345,7 +344,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   cancelButton: {
-    backgroundColor: Colors.red, // Customize cancel button color
+    backgroundColor: Colors.red,
   },
   modalButtonText: {
     color: Colors.white,

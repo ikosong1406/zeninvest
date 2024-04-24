@@ -178,7 +178,6 @@ const styles = StyleSheet.create({
     padding: width * 0.04,
   },
   box2: {
-    // height: "20%",
     padding: width * 0.04,
     backgroundColor: "white",
     marginTop: height * 0.02,
@@ -192,7 +191,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5, // This is for Android
+    elevation: 5,
   },
 });
 

@@ -11,7 +11,6 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import Colors from "../components/Colors";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { FontAwesome } from "@expo/vector-icons";
 import { useFonts } from "@expo-google-fonts/dev";
 import Payment from "./Payment";
 
@@ -20,11 +19,6 @@ const height = Dimensions.get("window").height;
 
 const Deposit = () => {
   const navigation = useNavigation();
-  const [selectedMethod, setSelectedMethod] = useState("card");
-
-  const handleSelectMethod = (method) => {
-    setSelectedMethod(method);
-  };
 
   const [fontsLoaded] = useFonts({
     anta: require("../fonts/Anta-Regular.ttf"),
@@ -106,7 +100,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5, // This is for Android
+    elevation: 5,
   },
 });
 
