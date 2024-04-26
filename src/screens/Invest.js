@@ -26,6 +26,7 @@ const height = Dimensions.get("window").height;
 const Invest = () => {
   const navigation = useNavigation();
   const [userData, setUserData] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
 
   async function getData() {
     const token = await AsyncStorage.getItem("token");
@@ -35,7 +36,16 @@ const Invest = () => {
   }
 
   useEffect(() => {
-    getData();
+    getData(); // Initial data fetch
+
+    // Set up interval to refresh data every 30 seconds (adjust as needed)
+    const interval = setInterval(() => {
+      setRefreshing(true); // Set refreshing to true before fetching data
+      getData();
+    }, 30000); // 30 seconds
+
+    // Clean up the interval on component unmount
+    return () => clearInterval(interval);
   }, []);
 
   const [fontsLoaded] = useFonts({

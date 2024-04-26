@@ -29,6 +29,7 @@ const Invest1 = () => {
   const { data, index } = route.params;
   const [amount, setAmount] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
   const [userData, setUserData] = useState("");
 
@@ -40,7 +41,16 @@ const Invest1 = () => {
   }
 
   useEffect(() => {
-    getData();
+    getData(); // Initial data fetch
+
+    // Set up interval to refresh data every 30 seconds (adjust as needed)
+    const interval = setInterval(() => {
+      setRefreshing(true); // Set refreshing to true before fetching data
+      getData();
+    }, 30000); // 30 seconds
+
+    // Clean up the interval on component unmount
+    return () => clearInterval(interval);
   }, []);
 
   const [fontsLoaded] = useFonts({

@@ -36,6 +36,7 @@ const Account = () => {
   const [gender, setGender] = useState("");
   const [dob, setDob] = useState("");
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -57,8 +58,18 @@ const Account = () => {
       setUserData(res.data.data);
     });
   }
+
   useEffect(() => {
-    getData();
+    getData(); // Initial data fetch
+
+    // Set up interval to refresh data every 30 seconds (adjust as needed)
+    const interval = setInterval(() => {
+      setRefreshing(true); // Set refreshing to true before fetching data
+      getData();
+    }, 30000); // 30 seconds
+
+    // Clean up the interval on component unmount
+    return () => clearInterval(interval);
   }, []);
 
   const back = () => {
