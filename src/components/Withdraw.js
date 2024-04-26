@@ -96,9 +96,27 @@ const Withdraw = () => {
     }
 
     // Proceed with withdrawal logic here
-    alert("Withdrawal confirmed!");
-    setModalVisible(false);
-    // You can navigate to another screen after withdrawal confirmation
+    const investData = {
+      userId: userData._id,
+      amount: amount,
+      type: "Withdrawal",
+      walletAddress: walletaddress,
+      coin: selectedCoin.label,
+    };
+    axios
+      .post(`${BackendApi}/transaction`, investData)
+      .then((res) => {
+        if (res.data.status === "ok") {
+          setModalVisible(false);
+          alert("Withdrawal will be Confirmed");
+          setTimeout(() => {
+            navigation.navigate("Home");
+          }, 3000);
+        } else {
+          alert("Error", "Failed to withdraw. Please try again.");
+        }
+      })
+      .catch((e) => console.log(e));
   };
 
   const back = () => {

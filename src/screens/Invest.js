@@ -13,7 +13,6 @@ import Colors from "../components/Colors";
 import { useNavigation } from "@react-navigation/native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { useFonts } from "@expo-google-fonts/dev";
-import image from "../images/Stock.jpg";
 import { FontAwesome6 } from "@expo/vector-icons";
 import TopStock from "../components/TopStock";
 import axios from "axios";
@@ -26,7 +25,7 @@ const height = Dimensions.get("window").height;
 
 const Invest = () => {
   const navigation = useNavigation();
-  const [userData, setUserData] = useState("");
+  const [userData, setUserData] = useState([]);
 
   async function getData() {
     const token = await AsyncStorage.getItem("token");
@@ -60,6 +59,9 @@ const Invest = () => {
 
   const firstRowData = stockData.slice(0, 2);
   const secondRowData = stockData.slice(2, 4);
+
+  const portfolio = userData?.portfolio || [];
+  const portRow = portfolio.slice(0, 2);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -238,36 +240,74 @@ const Invest = () => {
         </TouchableOpacity>
       </View>
 
-      <View style={styles.box2}>
-        <Image
-          source={image}
-          style={{
-            width: width * 0.4,
-            height: height * 0.05,
-            borderRadius: 10,
-          }}
-        />
-        <View style={{ marginLeft: width * 0.1 }}>
+      <View style={{ padding: width * 0.0, paddingTop: height * -0.04 }}>
+        {portRow.length > 0 ? (
+          portRow.map((portfolio, index) => (
+            <View key={index} style={{ paddingHorizontal: width * 0.05 }}>
+              <View style={styles.box3}>
+                <Image
+                  source={{ uri: portfolio.companyImage }}
+                  style={{
+                    width: width * 0.15,
+                    height: height * 0.07,
+                    borderRadius: 10,
+                    backgroundColor: "#cdcccc",
+                  }}
+                />
+                <View style={{ marginLeft: width * 0.1 }}>
+                  <Text
+                    style={{
+                      fontFamily: "anta",
+                      fontSize: 16,
+                      color: Colors.slateGray,
+                    }}
+                  >
+                    {portfolio.companyName}
+                  </Text>
+                  <Text
+                    style={{
+                      fontFamily: "anta",
+                      fontSize: 16,
+                      color: Colors.slateGray,
+                    }}
+                  >
+                    Amount Invested : ${portfolio.amount}
+                  </Text>
+                  <Text
+                    style={{
+                      fontFamily: "anta",
+                      fontSize: 16,
+                      color: Colors.slateGray,
+                    }}
+                  >
+                    Interest : {portfolio.interest}/{portfolio.subscription}
+                  </Text>
+                  <Text
+                    style={{
+                      fontFamily: "anta",
+                      fontSize: 16,
+                      color: "green",
+                    }}
+                  >
+                    Profit Generated : ${portfolio.profit}
+                  </Text>
+                </View>
+              </View>
+            </View>
+          ))
+        ) : (
           <Text
             style={{
               fontFamily: "anta",
-              fontSize: 20,
+              fontSize: 18,
               color: Colors.slateGray,
+              alignSelf: "center",
+              marginTop: height * 0.02,
             }}
           >
-            $10,000.00
+            No Investments
           </Text>
-          <Text
-            style={{
-              fontFamily: "anta",
-              fontSize: 20,
-              color: "red",
-              marginTop: height * 0.01,
-            }}
-          >
-            -0.1(50.8)
-          </Text>
-        </View>
+        )}
       </View>
     </SafeAreaView>
   );
@@ -295,6 +335,23 @@ const styles = StyleSheet.create({
   },
   box2: {
     width: "45%",
+    padding: width * 0.04,
+    backgroundColor: "white",
+    marginTop: height * 0.02,
+    borderRadius: 10,
+    shadowColor: "#000",
+    display: "flex",
+    flexDirection: "row",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  box3: {
+    // width: "90%",
     padding: width * 0.04,
     backgroundColor: "white",
     marginTop: height * 0.02,

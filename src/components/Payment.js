@@ -10,8 +10,10 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import SelectDropdown from "react-native-select-dropdown";
 import QRCode from "react-native-qrcode-svg";
-import { useFonts } from "@expo-google-fonts/dev";
 import Colors from "./Colors";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import BackendApi from "../api/BackendApi";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -32,9 +34,21 @@ const cryptoCoins = [
 
 const Payment = () => {
   const navigation = useNavigation();
+  const [userData, setUserData] = useState([]);
   const [selectedCoin, setSelectedCoin] = useState(null);
   const [amount, setAmount] = useState("");
   const [convertedAmount, setConvertedAmount] = useState(null);
+
+  async function getData() {
+    const token = await AsyncStorage.getItem("token");
+    axios.post(`${BackendApi}/userdata`, { token: token }).then((res) => {
+      setUserData(res.data.data);
+    });
+  }
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   const handleAmountChange = (text) => {
     setAmount(text);
@@ -58,11 +72,26 @@ const Payment = () => {
     setConvertedAmount(converted);
   };
 
-  const next = () => {
-    alert("Payment will be Confirmed");
-    setTimeout(() => {
-      navigation.navigate("Home");
-    }, 3000);
+  const handleDeposit = async () => {
+    const investData = {
+      userId: userData._id,
+      amount: amount,
+      type: "Deposit",
+      coin: selectedCoin.label,
+    };
+    axios
+      .post(`${BackendApi}/transaction`, investData)
+      .then((res) => {
+        if (res.data.status === "ok") {
+          alert("Payment will be Confirmed");
+          setTimeout(() => {
+            navigation.navigate("Home");
+          }, 3000);
+        } else {
+          alert("Error", "Failed to deposit. Please try again.");
+        }
+      })
+      .catch((e) => console.log(e));
   };
 
   return (
@@ -105,16 +134,25 @@ const Payment = () => {
           <QRCode value={selectedCoin.address} size={150} />
           <Text style={styles.label}>Wallet Address:</Text>
           <Text style={styles.address}>{selectedCoin.address}</Text>
+          <Text
+            style={{
+              color: "gray",
+              textAlign: "center",
+              marginTop: height * 0.04,
+            }}
+          >
+            Copy the wallet address, Make the payment then click on proceed
+          </Text>
         </View>
       )}
       <TouchableOpacity
         style={{
           backgroundColor: Colors.slateGray,
-          marginTop: height * 0.02,
+          marginTop: height * 0.03,
           borderRadius: 10,
           padding: width * 0.04,
         }}
-        onPress={next}
+        onPress={handleDeposit}
       >
         <Text
           style={{

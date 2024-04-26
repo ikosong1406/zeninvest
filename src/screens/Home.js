@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   box: {
-    height: "35%",
+    height: 200,
     backgroundColor: Colors.slateGray,
     borderColor: Colors.gold,
     borderWidth: 2,

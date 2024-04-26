@@ -53,6 +53,29 @@ const Invest2 = () => {
   const back = () => {
     navigation.goBack();
   };
+
+  const handleInvest = async () => {
+    const investData = {
+      userId: userData._id,
+      companyName: data.companyName,
+      amount: amount,
+      interest: 6.2,
+      subscription: "Annual",
+      companyImage: data.image,
+    };
+    axios
+      .post(`${BackendApi}/invest`, investData)
+      .then((res) => {
+        if (res.data.status === "ok") {
+          navigation.navigate("Success", { data, index, amount });
+        } else {
+          console.error("Error investing:", error);
+          alert("Error", "Failed to invest. Please try again.");
+        }
+      })
+      .catch((e) => console.log(e));
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View
@@ -191,7 +214,7 @@ const Invest2 = () => {
             padding: width * 0.03,
             marginTop: height * 0.04,
           }}
-          onPress={next}
+          onPress={handleInvest}
         >
           <Text
             style={{
