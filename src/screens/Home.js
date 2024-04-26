@@ -15,13 +15,14 @@ import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import BackendApi from "../api/BackendApi";
+import { Feather } from "@expo/vector-icons";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
 const Home = () => {
   const navigation = useNavigation();
-  const [userData, setUserData] = useState("");
+  const [userData, setUserData] = useState([]);
 
   async function getData() {
     const token = await AsyncStorage.getItem("token");
@@ -45,6 +46,13 @@ const Home = () => {
   const Deposit = () => {
     navigation.navigate("Deposit");
   };
+
+  const Transaction = () => {
+    navigation.navigate("Transaction");
+  };
+
+  const transactions = userData?.transactions || [];
+  const firstRowData = transactions.slice(0, 3);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -155,15 +163,61 @@ const Home = () => {
           >
             Recent Transaction
           </Text>
-          <Text
-            style={{
-              fontFamily: "anta",
-              fontSize: 16,
-              color: Colors.slateGray,
-            }}
-          >
-            See All
-          </Text>
+          <TouchableOpacity onPress={Transaction}>
+            <Text
+              style={{
+                fontFamily: "anta",
+                fontSize: 16,
+                color: Colors.slateGray,
+              }}
+            >
+              See All
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.row}>
+          {firstRowData.map((data, index) => (
+            <View style={styles.box2}>
+              <View style={{ display: "flex", flexDirection: "row" }}>
+                <Feather
+                  name={
+                    data.type === "Deposit"
+                      ? "arrow-down-left"
+                      : "arrow-up-right"
+                  }
+                  size={width * 0.1}
+                  color="white"
+                  style={{
+                    backgroundColor: data.type === "Deposit" ? "green" : "red",
+                    borderRadius: 100,
+                  }}
+                />
+                <Text
+                  style={{
+                    fontFamily: "anta",
+                    fontSize: 18,
+                    color: Colors.slateGray,
+                    marginLeft: "10%",
+                    alignSelf: "center",
+                  }}
+                >
+                  {data.type}
+                </Text>
+              </View>
+              <Text
+                style={{
+                  fontFamily: "anta",
+                  fontSize: 18,
+                  color: Colors.slateGray,
+                  marginLeft: "10%",
+                  alignSelf: "center",
+                }}
+              >
+                {data.amount}
+              </Text>
+            </View>
+          ))}
         </View>
       </View>
     </SafeAreaView>
@@ -176,7 +230,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   box: {
-    height: "45%",
+    height: "35%",
     backgroundColor: Colors.slateGray,
     borderColor: Colors.gold,
     borderWidth: 2,
@@ -190,7 +244,25 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5, // This is for Android
+    elevation: 5,
+  },
+  box2: {
+    padding: width * 0.05,
+    backgroundColor: "white",
+    marginTop: height * 0.025,
+    borderRadius: 10,
+    shadowColor: "#000",
+    alignItems: "center",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
 });
 

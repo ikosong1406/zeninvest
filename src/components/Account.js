@@ -50,6 +50,7 @@ const Account = () => {
     alert("A date has been picked: ", date);
     hideDatePicker();
   };
+
   async function getData() {
     const token = await AsyncStorage.getItem("token");
     axios.post(`${BackendApi}/userdata`, { token: token }).then((res) => {

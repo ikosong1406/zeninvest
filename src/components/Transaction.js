@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -12,32 +12,34 @@ import Colors from "../components/Colors";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { useFonts } from "@expo-google-fonts/dev";
 import TransactionCard from "./TransactionCard";
+import BackendApi from "../api/BackendApi";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
-const jsonData = [
-  {
-    type: "Deposit",
-    amount: "10,000",
-    date: "18 oct 2020",
-    time: "7:40 am",
-    amountInWords: "Ten Thousand Dollars",
-  },
-  {
-    type: "Withdrawal",
-    amount: "50,000",
-    date: "20 oct 2020",
-    time: "10:40 am",
-    amountInWords: "Fifty Thousand Dollars",
-  },
-];
-
 const Transaction = () => {
   const navigation = useNavigation();
+  const [userData, setUserData] = useState([]);
+
+  async function getData() {
+    const token = await AsyncStorage.getItem("token");
+    axios.post(`${BackendApi}/userdata`, { token: token }).then((res) => {
+      // console.log(res.data.data);
+      setUserData(res.data.data);
+    });
+  }
+  useEffect(() => {
+    getData();
+  }, []);
+
   const back = () => {
     navigation.goBack();
   };
+
+  const transactions = userData?.transactions || [];
+
   return (
     <SafeAreaView style={styles.container}>
       <View
@@ -67,16 +69,26 @@ const Transaction = () => {
           Transactions
         </Text>
       </View>
-
-      <View
-        style={{
-          padding: width * 0.05,
-          paddingTop: height * -0.04,
-        }}
-      >
-        {jsonData.map((item, index) => (
-          <TransactionCard key={index} data={item} />
-        ))}
+      <View style={{ padding: width * 0.05, paddingTop: height * -0.04 }}>
+        {transactions.length > 0 ? (
+          transactions.map((transaction, index) => (
+            <View key={index}>
+              <TransactionCard data={transaction} />
+            </View>
+          ))
+        ) : (
+          <Text
+            style={{
+              fontFamily: "anta",
+              fontSize: 18,
+              color: Colors.slateGray,
+              alignSelf: "center",
+              marginTop: height * 0.02,
+            }}
+          >
+            No transactions available
+          </Text>
+        )}
       </View>
     </SafeAreaView>
   );

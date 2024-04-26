@@ -109,7 +109,7 @@ const TransactionDetails = () => {
             alignSelf: "center",
           }}
         >
-          Amount
+          Id
         </Text>
         <Text
           style={{
@@ -119,7 +119,7 @@ const TransactionDetails = () => {
             alignSelf: "center",
           }}
         >
-          {data.amount}
+          {data._id}
         </Text>
       </View>
       <View
@@ -138,7 +138,7 @@ const TransactionDetails = () => {
             alignSelf: "center",
           }}
         >
-          Amount in words
+          Amount
         </Text>
         <Text
           style={{
@@ -148,7 +148,7 @@ const TransactionDetails = () => {
             alignSelf: "center",
           }}
         >
-          {data.amountInWords}
+          {data.amount}
         </Text>
       </View>
       <View

@@ -15,17 +15,24 @@ const height = Dimensions.get("window").height;
 
 const TransactionCard = ({ data, index }) => {
   const navigation = useNavigation();
+
   const handleBoxClick = () => {
     navigation.navigate("TransactionDetails", { data, index });
   };
+
+  const iconName =
+    data.type === "Deposit" ? "arrow-down-left" : "arrow-up-right";
+
+  const iconColor = data.type === "Deposit" ? "green" : "red";
+
   return (
     <TouchableOpacity style={styles.box} onPress={handleBoxClick}>
       <View style={{ display: "flex", flexDirection: "row" }}>
         <Feather
-          name="arrow-down-left"
+          name={iconName}
           size={width * 0.1}
           color="white"
-          style={{ backgroundColor: "green", borderRadius: 100 }}
+          style={{ backgroundColor: iconColor, borderRadius: 100 }}
         />
         <Text
           style={{
