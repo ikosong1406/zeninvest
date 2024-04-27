@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { StatusBar } from "react-native";
-import Splash from "./src/screens/Splash";
 import Authentication from "./src/screens/Authentication";
 import BottomTab from "./src/components/BottomTab";
 import Portfolio from "./src/components/Portfolio";
@@ -22,25 +21,10 @@ import Setting from "./src/components/Setting";
 const Stack = createStackNavigator();
 
 const App = () => {
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
-  // async function getData() {
-  //   const data = await AsyncStorage.getItem("isLoggedIn");
-  //   setIsLoggedIn(data);
-  // }
-
-  // useEffect(() => {
-  //   getData();
-  // });
-
   return (
     <NavigationContainer>
       <StatusBar barStyle="light-content" backgroundColor={Colors.slateGray} />
-      <Stack.Navigator initialRouteName="Splash">
-        <Stack.Screen
-          name="Splash"
-          component={Splash}
-          options={{ headerShown: false }}
-        />
+      <Stack.Navigator initialRouteName="Auth">
         <Stack.Screen
           name="Auth"
           component={Authentication}
