@@ -2,13 +2,11 @@ import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
-  Image,
   StyleSheet,
   SafeAreaView,
   Dimensions,
   TouchableOpacity,
   TextInput,
-  Button,
 } from "react-native";
 import SelectDropdown from "react-native-select-dropdown";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -17,7 +15,6 @@ import { useNavigation } from "@react-navigation/native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import User from "../images/image.jpg";
 import BackendApi from "../api/BackendApi";
 
 const width = Dimensions.get("window").width;
@@ -31,10 +28,10 @@ const genderOptions = [
 const Account = () => {
   const navigation = useNavigation();
   const [userData, setUserData] = useState("");
-  const [email, setEmail] = useState("");
   const [fullname, setFullname] = useState("");
   const [gender, setGender] = useState("");
   const [dob, setDob] = useState("");
+  const [profilePicture, setProfilePicture] = useState(null);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -48,7 +45,6 @@ const Account = () => {
 
   const handleConfirm = (date) => {
     setDob(date);
-    alert("A date has been picked: ", date);
     hideDatePicker();
   };
 
@@ -74,6 +70,30 @@ const Account = () => {
 
   const back = () => {
     navigation.goBack();
+  };
+
+  const saveProfile = () => {
+    const proData = {
+      userId: userData._id,
+      fullname: fullname,
+      gender: gender.label,
+      dob: dob,
+      profilePicture: profilePicture,
+    };
+    axios
+      .post(`${BackendApi}/updateProfile`, proData)
+      .then((res) => {
+        if (res.data.status === "ok") {
+          alert("Profile successfully updated");
+          setFullname("");
+          setGender("");
+          setDob("");
+        } else {
+          console.error("Error updating:", error);
+          alert("Error", "Failed to Save. Please try again.");
+        }
+      })
+      .catch((e) => console.log(e));
   };
 
   return (
@@ -107,15 +127,12 @@ const Account = () => {
       </View>
 
       <View style={{ display: "flex", alignItems: "center" }}>
-        <Image
-          source={User}
-          style={{
-            width: width * 0.25,
-            height: height * 0.12,
-            borderRadius: 100,
-            alignSelf: "center",
-          }}
-        />
+        <View style={styles.profileInitial}>
+          <Text style={styles.profileInitialText}>
+            {userData.fullname ? userData.fullname[0].toUpperCase() : ""}
+          </Text>
+        </View>
+
         <Text
           style={{
             marginTop: height * 0.03,
@@ -226,14 +243,8 @@ const Account = () => {
         >
           Email
         </Text>
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder={userData.email}
-            placeholderTextColor="#888"
-            value={email}
-            onChangeText={setEmail}
-          />
+        <View style={styles.input2}>
+          <Text style={{ color: "gray", fontSize: 16 }}>{userData.email}</Text>
         </View>
       </View>
 
@@ -246,7 +257,7 @@ const Account = () => {
           width: "90%",
           alignSelf: "center",
         }}
-        // onPress={next}
+        onPress={saveProfile}
       >
         <Text
           style={{
@@ -285,6 +296,20 @@ const styles = StyleSheet.create({
     padding: width * 0.02,
     color: "#333",
   },
+  input2: {
+    backgroundColor: "#cdcccc",
+    borderColor: Colors.gold,
+    borderWidth: 1,
+    borderRadius: 10,
+    padding: width * 0.03,
+    flexDirection: "row",
+    alignItems: "center",
+    alignSelf: "center",
+    borderRadius: 10,
+    paddingHorizontal: width * 0.04,
+    marginTop: height * 0.01,
+    width: "92%",
+  },
   dropdownButton: {
     width: "90%",
     backgroundColor: "#cdcccc",
@@ -317,6 +342,22 @@ const styles = StyleSheet.create({
   },
   dropdownTextHighlight: {
     fontWeight: "bold",
+  },
+  profileInitial: {
+    width: width * 0.25,
+    height: height * 0.12,
+    borderRadius: 100,
+    alignSelf: "center",
+    borderColor: Colors.gold,
+    backgroundColor: "#cdcccc",
+    borderWidth: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  profileInitialText: {
+    fontSize: width * 0.2,
+    color: Colors.slateGray,
+    fontFamily: "anta",
   },
 });
 

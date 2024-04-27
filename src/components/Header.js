@@ -1,20 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Image,
+  View,
   Dimensions,
   TouchableOpacity,
   SafeAreaView,
+  Text,
+  StyleSheet,
 } from "react-native";
 import Colors from "../components/Colors";
-import User from "../images/image.jpg";
 import Sidenav from "./Sidenav";
 import { AntDesign } from "@expo/vector-icons";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import BackendApi from "../api/BackendApi";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
 const Header = ({ setSelectedScreen, navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [userData, setUserData] = useState("");
+  const [refreshing, setRefreshing] = useState(false);
+
+  async function getData() {
+    const token = await AsyncStorage.getItem("token");
+    axios.post(`${BackendApi}/userdata`, { token: token }).then((res) => {
+      setUserData(res.data.data);
+    });
+  }
+
+  useEffect(() => {
+    getData(); // Initial data fetch
+
+    // Set up interval to refresh data every 30 seconds (adjust as needed)
+    const interval = setInterval(() => {
+      setRefreshing(true); // Set refreshing to true before fetching data
+      getData();
+    }, 30000); // 30 seconds
+
+    // Clean up the interval on component unmount
+    return () => clearInterval(interval);
+  }, []);
 
   const toggleModal = () => {
     setModalVisible(!modalVisible);
@@ -42,15 +69,12 @@ const Header = ({ setSelectedScreen, navigation }) => {
         />
       </TouchableOpacity>
 
-      <Image
-        source={User}
-        style={{
-          width: width * 0.1,
-          height: height * 0.05,
-          borderRadius: 100,
-          alignSelf: "center",
-        }}
-      />
+      <View style={styles.profileInitial}>
+        <Text style={styles.profileInitialText}>
+          {userData.fullname ? userData.fullname[0].toUpperCase() : ""}
+        </Text>
+      </View>
+
       {modalVisible && (
         <Sidenav
           setSelectedScreen={setSelectedScreen}
@@ -62,4 +86,22 @@ const Header = ({ setSelectedScreen, navigation }) => {
   );
 };
 
+const styles = StyleSheet.create({
+  profileInitial: {
+    width: width * 0.11,
+    height: height * 0.05,
+    borderRadius: 100,
+    alignSelf: "center",
+    borderColor: Colors.gold,
+    backgroundColor: "#cdcccc",
+    borderWidth: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  profileInitialText: {
+    fontSize: width * 0.07,
+    color: Colors.slateGray,
+    fontFamily: "anta",
+  },
+});
 export default Header;
