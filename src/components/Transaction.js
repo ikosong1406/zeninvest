@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   Dimensions,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Colors from "../components/Colors";
@@ -80,10 +81,21 @@ const Transaction = () => {
           Transactions
         </Text>
       </View>
-      <View style={{ padding: width * 0.05, paddingTop: height * -0.04 }}>
+      <ScrollView
+        style={{
+          paddingBottom: height * 0.05,
+          height: "80%",
+        }}
+      >
         {transactions.length > 0 ? (
           transactions.map((transaction, index) => (
-            <View key={index}>
+            <View
+              key={index}
+              style={{
+                paddingHorizontal: width * 0.04,
+                paddingVertical: height * 0.005,
+              }}
+            >
               <TransactionCard data={transaction} />
             </View>
           ))
@@ -100,7 +112,7 @@ const Transaction = () => {
             No transactions available
           </Text>
         )}
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };

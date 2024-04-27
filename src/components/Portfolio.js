@@ -7,11 +7,11 @@ import {
   SafeAreaView,
   Dimensions,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Colors from "../components/Colors";
 import { FontAwesome5 } from "@expo/vector-icons";
-import image from "../images/Stock.jpg";
 import { useFonts } from "@expo-google-fonts/dev";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -55,6 +55,12 @@ const Portfolio = () => {
 
   const back = () => {
     navigation.goBack();
+  };
+
+  const handleSale = (stockId) => {
+    // Implement your logic here to sell the stock with the specified stockId
+    // console.log("Selling stock with ID:", stockId);
+    // Example: You can navigate to a sale screen or perform an API call to sell the stock
   };
 
   const portfolio = userData?.portfolio || [];
@@ -122,77 +128,81 @@ const Portfolio = () => {
           Assets
         </Text>
 
-        <View>
-          <View style={{ padding: width * 0.0, paddingTop: height * -0.04 }}>
-            {portfolio.length > 0 ? (
-              portfolio.map((portfolio, index) => (
-                <View key={index}>
-                  <TouchableOpacity style={styles.box}>
-                    <Image
-                      source={{ uri: portfolio.companyImage }}
-                      style={{
-                        width: width * 0.15,
-                        height: height * 0.07,
-                        borderRadius: 10,
-                        backgroundColor: "#cdcccc",
-                      }}
-                    />
-                    <View style={{ marginLeft: width * 0.1 }}>
-                      <Text
-                        style={{
-                          fontFamily: "anta",
-                          fontSize: 16,
-                          color: Colors.slateGray,
-                        }}
-                      >
-                        {portfolio.companyName}
-                      </Text>
-                      <Text
-                        style={{
-                          fontFamily: "anta",
-                          fontSize: 16,
-                          color: Colors.slateGray,
-                        }}
-                      >
-                        Amount Invested : ${portfolio.amount}
-                      </Text>
-                      <Text
-                        style={{
-                          fontFamily: "anta",
-                          fontSize: 16,
-                          color: Colors.slateGray,
-                        }}
-                      >
-                        Interest : {portfolio.interest}/{portfolio.subscription}
-                      </Text>
-                      <Text
-                        style={{
-                          fontFamily: "anta",
-                          fontSize: 16,
-                          color: "green",
-                        }}
-                      >
-                        Profit Generated : ${portfolio.profit}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                </View>
-              ))
-            ) : (
-              <Text
+        <ScrollView style={{ paddingBottom: height * 0.05, height: "80%" }}>
+          {portfolio.length > 0 ? (
+            portfolio.map((portfolio, index) => (
+              <View
+                key={index}
                 style={{
-                  fontFamily: "anta",
-                  fontSize: 18,
-                  color: Colors.slateGray,
-                  alignSelf: "center",
-                  marginTop: height * 0.02,
+                  paddingHorizontal: width * 0.005,
+                  paddingVertical: height * 0.005,
                 }}
               >
-                No Investments
-              </Text>
-            )}
-          </View>
-        </View>
+                <TouchableOpacity style={styles.box} onPress={handleSale}>
+                  <Image
+                    source={{ uri: portfolio.companyImage }}
+                    style={{
+                      width: width * 0.15,
+                      height: height * 0.07,
+                      borderRadius: 10,
+                      backgroundColor: "#cdcccc",
+                    }}
+                  />
+                  <View style={{ marginLeft: width * 0.1 }}>
+                    <Text
+                      style={{
+                        fontFamily: "anta",
+                        fontSize: 16,
+                        color: Colors.slateGray,
+                      }}
+                    >
+                      {portfolio.companyName}
+                    </Text>
+                    <Text
+                      style={{
+                        fontFamily: "anta",
+                        fontSize: 16,
+                        color: Colors.slateGray,
+                      }}
+                    >
+                      Amount Invested : ${portfolio.amount}
+                    </Text>
+                    <Text
+                      style={{
+                        fontFamily: "anta",
+                        fontSize: 16,
+                        color: Colors.slateGray,
+                      }}
+                    >
+                      Interest : {portfolio.interest}/{portfolio.subscription}
+                    </Text>
+                    <Text
+                      style={{
+                        fontFamily: "anta",
+                        fontSize: 16,
+                        color: "green",
+                      }}
+                    >
+                      Profit Generated : ${portfolio.profit}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            ))
+          ) : (
+            <Text
+              style={{
+                fontFamily: "anta",
+                fontSize: 18,
+                color: Colors.slateGray,
+                alignSelf: "center",
+                marginTop: height * 0.02,
+              }}
+            >
+              No Investments
+            </Text>
+          )}
+        </ScrollView>
       </View>
     </SafeAreaView>
   );
@@ -206,7 +216,6 @@ const styles = StyleSheet.create({
   },
   box: {
     padding: width * 0.04,
-    // width: "100%",
     backgroundColor: "white",
     marginTop: height * 0.02,
     borderRadius: 10,
