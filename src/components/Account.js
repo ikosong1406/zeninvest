@@ -73,6 +73,11 @@ const Account = () => {
   };
 
   const saveProfile = () => {
+    if (!fullname && !gender && !dob) {
+      alert("Please fill out at least one field.");
+      return;
+    }
+
     const proData = {
       userId: userData._id,
       fullname: fullname,

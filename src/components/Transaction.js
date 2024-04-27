@@ -121,6 +121,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.white,
     flex: 1,
+    padding: width * 0.04,
   },
   box: {
     padding: width * 0.05,
