@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import {
   View,
   Text,
-  Image,
   StyleSheet,
-  SafeAreaView,
   Dimensions,
   TouchableOpacity,
   TextInput,
@@ -32,6 +30,13 @@ const Login = () => {
   };
 
   const Login = () => {
+    // Email validation
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailPattern.test(email)) {
+      alert("Please enter a valid email address");
+      return;
+    }
+
     const userData = {
       email,
       password,
@@ -113,53 +118,26 @@ const Login = () => {
 
       <View
         style={{
-          display: "flex",
-          flexDirection: "row",
           marginTop: height * 0.3,
-          marginBottom: height * 0.01,
-          alignSelf: "center",
         }}
       >
-        <Text
-          style={{
-            color: "gray",
-            marginLeft: width * 0.04,
-            fontSize: 16,
-            paddingRight: width * 0.02,
-            fontFamily: "anta",
-          }}
+        <TouchableOpacity
+          onPress={Login}
+          style={active ? styles.active : styles.inactive}
+          disabled={!active} // Disable button when not active
         >
-          Forgot Password ?
-        </Text>
-        <TouchableOpacity onPress={at} style={{ width: "10%" }}>
           <Text
             style={{
-              color: Colors.gold,
-              fontSize: 16,
               fontFamily: "anta",
+              fontSize: 20,
+              color: Colors.white,
+              alignSelf: "center",
             }}
           >
-            Reset
+            LOG IN
           </Text>
         </TouchableOpacity>
       </View>
-
-      <TouchableOpacity
-        onPress={Login}
-        style={active ? styles.active : styles.inactive}
-        disabled={!active} // Disable button when not active
-      >
-        <Text
-          style={{
-            fontFamily: "anta",
-            fontSize: 20,
-            color: Colors.white,
-            alignSelf: "center",
-          }}
-        >
-          LOG IN
-        </Text>
-      </TouchableOpacity>
     </View>
   );
 };

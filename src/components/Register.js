@@ -48,13 +48,29 @@ const Register = () => {
       return;
     }
 
+    // Email validation
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailPattern.test(email)) {
+      alert("Please enter a valid email address");
+      return;
+    }
+
+    // Password validation
+    const passwordPattern = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{8,20}$/;
+    if (!passwordPattern.test(password)) {
+      alert(
+        "Password must be 8-20 characters long and contain at least one uppercase letter, one lowercase letter, and one number."
+      );
+      return;
+    }
+
     const userData = {
       fullname: fullname,
-      email,
-      password,
+      email: email,
+      password: password,
     };
     axios
-      .post(`${BackendApi}}/register`, userData)
+      .post(`${BackendApi}/register`, userData)
       .then((res) => {
         if (res.data.status === "ok") {
           // Account created successfully

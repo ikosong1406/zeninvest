@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Modal,
   Text,
@@ -7,6 +7,7 @@ import {
   Dimensions,
   TouchableOpacity,
   SafeAreaView,
+  Alert,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Colors from "./Colors";
@@ -21,6 +22,7 @@ const height = Dimensions.get("window").height;
 
 const Sidenav = ({ visible, onClose }) => {
   const navigation = useNavigation();
+  const [logoutConfirmed, setLogoutConfirmed] = useState(false);
 
   const Transaction = () => {
     onClose();
@@ -43,10 +45,32 @@ const Sidenav = ({ visible, onClose }) => {
   };
 
   const logout = () => {
-    setActive("Profile");
-    // onClose();
-    // navigation.navigate("Home");
+    // Show confirmation prompt using Alert component
+    Alert.alert(
+      "Logout",
+      "Are you sure you want to log out?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        {
+          text: "OK",
+          onPress: () => {
+            setLogoutConfirmed(true);
+            onClose(); // Close the modal
+          },
+        },
+      ],
+      { cancelable: false }
+    );
   };
+
+  // Redirect to Auth screen if logoutConfirmed is true
+  if (logoutConfirmed) {
+    navigation.navigate("Auth");
+  }
 
   return (
     <SafeAreaView>

@@ -30,7 +30,18 @@ const cryptoCoins = [
     label: "Ethereum (ETH)",
     value: "ETH",
   },
-  // Add more coins as needed
+  {
+    label: "Litecoin (LTC)",
+    value: "LTC",
+  },
+  {
+    label: "Bitcoin Cash (BCH)",
+    value: "BCH",
+  },
+  {
+    label: "BNB smart Chain(BNB)",
+    value: "BNB",
+  },
 ];
 
 const Withdraw = () => {
@@ -284,10 +295,12 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.white,
     flex: 1,
+    // padding: width * 0.04,
   },
   content: {
     width: "100%",
     padding: width * 0.05,
+    paddingHorizontal: width * 0.09,
   },
   dropdownButton: {
     width: "100%",

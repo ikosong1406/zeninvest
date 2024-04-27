@@ -4,9 +4,7 @@ import {
   Text,
   Image,
   StyleSheet,
-  SafeAreaView,
   Dimensions,
-  TextInput,
   TouchableOpacity,
   ScrollView,
 } from "react-native";
@@ -23,7 +21,6 @@ const height = Dimensions.get("window").height;
 
 const StockList = () => {
   const navigation = useNavigation();
-  const [searchText, setSearchText] = useState("");
   const back = () => {
     navigation.goBack();
   };
@@ -55,15 +52,6 @@ const StockList = () => {
         >
           Top Stock to invest in
         </Text>
-      </View>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Search..."
-          placeholderTextColor="#888"
-          value={searchText}
-          onChangeText={setSearchText}
-        />
       </View>
       <ScrollView style={{ paddingBottom: height * 0.06 }}>
         {stockData.map((item, index) => (

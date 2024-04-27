@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import SelectDropdown from "react-native-select-dropdown";
+import * as Clipboard from "expo-clipboard";
 import QRCode from "react-native-qrcode-svg";
 import Colors from "./Colors";
 import axios from "axios";
@@ -29,7 +30,21 @@ const cryptoCoins = [
     value: "ETH",
     address: "0xE447f3Dc0dc5BA8B3e874eB2259bdDff8a7667bA",
   },
-  // Add more coins as needed
+  {
+    label: "Litecoin (LTC)",
+    value: "LTC",
+    address: "ltc1q6zcsf7rqh0gq7wd5uwjxyx68rn7kyc2lr9t6wq",
+  },
+  {
+    label: "Bitcoin Cash (BCH)",
+    value: "BCH",
+    address: "qzcx8r5nrhaweytvqz6fg9m8au7k9j48hywa7ampvn",
+  },
+  {
+    label: "BNB smart Chain(BNB)",
+    value: "BNB",
+    address: "0xE447f3Dc0dc5BA8B3e874eB2259bdDff8a7667bA",
+  },
 ];
 
 const Payment = () => {
@@ -75,9 +90,15 @@ const Payment = () => {
     // For demonstration purposes, let's assume 1 BTC = 1000 USD and 1 ETH = 500 USD
     let converted;
     if (coinValue === "BTC") {
-      converted = amount / 68000;
+      converted = amount / 62800;
     } else if (coinValue === "ETH") {
-      converted = amount / 3555;
+      converted = amount / 3152;
+    } else if (coinValue === "LTC") {
+      converted = amount / 84;
+    } else if (coinValue === "BCH") {
+      converted = amount / 473;
+    } else if (coinValue === "BNB") {
+      converted = amount / 589;
     }
     setConvertedAmount(converted);
   };
@@ -102,6 +123,11 @@ const Payment = () => {
         }
       })
       .catch((e) => console.log(e));
+  };
+
+  const handleCopyAddress = (address) => {
+    Clipboard.setString(address);
+    alert("Address copied to clipboard");
   };
 
   return (
@@ -144,6 +170,12 @@ const Payment = () => {
           <QRCode value={selectedCoin.address} size={150} />
           <Text style={styles.label}>Wallet Address:</Text>
           <Text style={styles.address}>{selectedCoin.address}</Text>
+          <TouchableOpacity
+            onPress={() => handleCopyAddress(selectedCoin.address)}
+            style={styles.copyButton}
+          >
+            <Text style={styles.copyButtonText}>Copy Address</Text>
+          </TouchableOpacity>
           <Text
             style={{
               color: "gray",
@@ -151,7 +183,7 @@ const Payment = () => {
               marginTop: height * 0.04,
             }}
           >
-            Copy the wallet address, Make the payment then click on proceed
+            Copy the wallet address and make the payment
           </Text>
         </View>
       )}
@@ -237,6 +269,16 @@ const styles = StyleSheet.create({
     padding: width * 0.02,
     color: "#333",
     width: "100%",
+  },
+  copyButton: {
+    backgroundColor: Colors.gold,
+    borderRadius: 8,
+    marginTop: height * 0.02,
+    padding: width * 0.03,
+  },
+  copyButtonText: {
+    color: Colors.white,
+    fontFamily: "anta",
   },
 });
 
