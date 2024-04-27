@@ -1,6 +1,5 @@
 {
   "build": {
-    "image": "default",
     "developmentClient": {
       "developmentClient": true
     },
@@ -9,6 +8,9 @@
         "buildType": "apk",
         "gradleCommand": ":app:assembleRelease"
       }
+    },
+    "production": {
+      "image": "default"
     }
   }
 }
