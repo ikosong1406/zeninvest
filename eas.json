@@ -1,16 +1,18 @@
 {
   "build": {
-    "developmentClient": {
-      "developmentClient": true
-    },
-    "release": {
+    "preview": {
       "android": {
-        "buildType": "apk",
+        "buildType": "apk"
+      }
+    },
+    "preview2": {
+      "android": {
         "gradleCommand": ":app:assembleRelease"
       }
     },
-    "production": {
-      "image": "default"
-    }
+    "preview3": {
+      "developmentClient": true
+    },
+    "production": {}
   }
 }
